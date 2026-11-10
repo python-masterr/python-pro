@@ -1,0 +1,6 @@
+{
+  "name": "PythonPro - 3D Placement Prep Universe",
+  "description": "Interactive Python placement preparation platform for B.Tech students featuring 3D Three.js visualizations, 24 comprehensive notes, 18 practice programs, 20 interactive quiz questions, 30 interview Q&As, and an actionable 90-day placement roadmap with eco-printable blueprints.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

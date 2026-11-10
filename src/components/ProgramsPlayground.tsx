@@ -39,13 +39,18 @@ interface ProgramsPlaygroundProps {
 }
 
 export const ProgramsPlayground: React.FC<ProgramsPlaygroundProps> = ({ initialTitle }) => {
-  const initialProgram =
-    (initialTitle && PROGRAMS_DATA.find((p) => p.title.toLowerCase().includes(initialTitle.toLowerCase()))) ||
-    PROGRAMS_DATA[0];
+  const resolveProgram = (title?: string) => {
+    if (!title) return PROGRAMS_DATA[0];
 
-  const [selectedProgram, setSelectedProgram] = useState<ProgramItem>(initialProgram);
-  const [code, setCode] = useState<string>(initialProgram.code);
-  const [output, setOutput] = useState<string>(initialProgram.out);
+    return (
+      PROGRAMS_DATA.find((p) => p.title.toLowerCase().includes(title.toLowerCase())) ||
+      PROGRAMS_DATA[0]
+    );
+  };
+
+  const [selectedProgram, setSelectedProgram] = useState<ProgramItem>(() => resolveProgram(initialTitle));
+  const [code, setCode] = useState<string>(() => resolveProgram(initialTitle).code);
+  const [output, setOutput] = useState<string>(() => resolveProgram(initialTitle).out);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [execStatus, setExecStatus] = useState<'idle' | 'success' | 'diff'>('idle');
   const [selectedCat, setSelectedCat] = useState<string>('All');
@@ -65,6 +70,14 @@ export const ProgramsPlayground: React.FC<ProgramsPlaygroundProps> = ({ initialT
     });
     return () => unsub();
   }, []);
+
+  useEffect(() => {
+    const nextProgram = resolveProgram(initialTitle);
+    setSelectedProgram(nextProgram);
+    setCode(nextProgram.code);
+    setOutput(nextProgram.out);
+    setExecStatus('idle');
+  }, [initialTitle]);
 
   const categories = ['All', 'Basics', 'Strings', 'Collections', 'Functions'];
 

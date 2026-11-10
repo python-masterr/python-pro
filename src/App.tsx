@@ -50,10 +50,15 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [playgroundTitle, setPlaygroundTitle] = useState<string | undefined>(undefined);
 
-  const handleNavClick = (tabKey: AppTab) => {
+  const changeTab = (tabKey: AppTab) => {
+    setPlaygroundTitle(undefined);
     setActiveTab(tabKey);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavClick = (tabKey: AppTab) => {
+    changeTab(tabKey);
   };
 
   const handleOpenPlaygroundWithTitle = (title?: string) => {
@@ -70,26 +75,26 @@ export default function App() {
           <HomeView
             onNavigate={(tab) => {
               if (tab === 'curriculum-text' || tab === 'curriculum') {
-                setActiveTab('curriculum');
+                changeTab('curriculum');
               } else if (tab === 'threejs-universe' || tab === 'threejs-core' || tab === 'universe') {
-                setActiveTab('threejs-core');
+                changeTab('threejs-core');
               } else if (tab === 'data-structures') {
-                setActiveTab('data-structures');
+                changeTab('data-structures');
               } else {
-                setActiveTab(tab as AppTab);
+                changeTab(tab as AppTab);
               }
             }}
             onSelectScreenId={(id) => {
               // Backward compatible mapping for child components
-              if (id.includes('4ee6') || id === 'data-structures') setActiveTab('data-structures');
-              else if (id.includes('5545') || id === 'programs') setActiveTab('programs');
-              else if (id.includes('baee') || id === 'notes') setActiveTab('notes');
-              else if (id.includes('6fc6') || id === 'quiz') setActiveTab('quiz');
-              else if (id.includes('5ea0') || id === 'interview') setActiveTab('interview');
-              else if (id.includes('0564') || id === 'roadmap') setActiveTab('roadmap');
-              else if (id.includes('2068') || id.includes('4aa9') || id.includes('96c5') || id === 'blueprint') setActiveTab('blueprint');
-              else if (id.includes('16c0') || id === 'curriculum') setActiveTab('curriculum');
-              else setActiveTab('home');
+              if (id.includes('4ee6') || id === 'data-structures') changeTab('data-structures');
+              else if (id.includes('5545') || id === 'programs') changeTab('programs');
+              else if (id.includes('baee') || id === 'notes') changeTab('notes');
+              else if (id.includes('6fc6') || id === 'quiz') changeTab('quiz');
+              else if (id.includes('5ea0') || id === 'interview') changeTab('interview');
+              else if (id.includes('0564') || id === 'roadmap') changeTab('roadmap');
+              else if (id.includes('2068') || id.includes('4aa9') || id.includes('96c5') || id === 'blueprint') changeTab('blueprint');
+              else if (id.includes('16c0') || id === 'curriculum') changeTab('curriculum');
+              else changeTab('home');
             }}
           />
         );
@@ -109,7 +114,7 @@ export default function App() {
       case 'roadmap':
         return (
           <RoadmapView
-            onGoToBlueprint={() => setActiveTab('blueprint')}
+            onGoToBlueprint={() => changeTab('blueprint')}
           />
         );
 
@@ -157,12 +162,12 @@ export default function App() {
             <ThreeUniverse
               isHeroMode={true}
               onSelectNode={(key) => {
-                if (key.includes('notes')) setActiveTab('notes');
-                else if (key.includes('prog')) setActiveTab('programs');
-                else if (key.includes('quiz')) setActiveTab('quiz');
-                else if (key.includes('interview')) setActiveTab('interview');
-                else if (key.includes('road')) setActiveTab('roadmap');
-                else setActiveTab('home');
+                if (key.includes('notes')) changeTab('notes');
+                else if (key.includes('prog')) changeTab('programs');
+                else if (key.includes('quiz')) changeTab('quiz');
+                else if (key.includes('interview')) changeTab('interview');
+                else if (key.includes('road')) changeTab('roadmap');
+                else changeTab('home');
               }}
             />
           </div>
@@ -174,8 +179,8 @@ export default function App() {
       default:
         return (
           <HomeView
-            onNavigate={(tab) => setActiveTab(tab as AppTab)}
-            onSelectScreenId={() => setActiveTab('home')}
+            onNavigate={(tab) => changeTab(tab as AppTab)}
+            onSelectScreenId={() => changeTab('home')}
           />
         );
     }
